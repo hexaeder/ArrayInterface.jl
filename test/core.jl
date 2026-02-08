@@ -110,11 +110,7 @@ end
 
 @testset "fast_scalar_indexing" begin
     @test !fast_scalar_indexing(qr(rand(10, 10)).Q)
-    if VERSION >= v"1.7"
-        @test !fast_scalar_indexing(qr(rand(10, 10), ColumnNorm()).Q)
-    else
-        @test !fast_scalar_indexing(qr(rand(10, 10), Val(true)).Q)
-    end
+    @test !fast_scalar_indexing(qr(rand(10, 10), ColumnNorm()).Q)
     @test !fast_scalar_indexing(lq(rand(10, 10)).Q)
     @test fast_scalar_indexing(Nothing)  # test default
 end
@@ -285,9 +281,7 @@ end
     for A in [sparse([1.0 2.0; 3.0 4.0])]
         @test ArrayInterface.lu_instance(A) isa typeof(lu(A))
         @test ArrayInterface.qr_instance(A) isa typeof(qr(A))
-        if VERSION >= v"1.9-"
-            @test ArrayInterface.cholesky_instance(A' * A) isa typeof(cholesky(A' * A))
-        end
+        @test ArrayInterface.cholesky_instance(A' * A) isa typeof(cholesky(A' * A))
         @test ArrayInterface.ldlt_instance(SymTridiagonal(A' * A)) isa typeof(ldlt(SymTridiagonal(A' * A)))
     end
 end
