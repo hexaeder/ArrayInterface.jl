@@ -24,6 +24,7 @@ rowind, colind = ArrayInterface.findstructralnz(B)
 @test ArrayInterface.fast_matrix_colors(typeof(B))
 
 for op in (adjoint, transpose)
+    local B
     B = BandedMatrix(Ones(5, 5), (-1, 2))
     B[band(1)] .= [1, 2, 3, 4]
     B[band(2)] .= [5, 6, 7]

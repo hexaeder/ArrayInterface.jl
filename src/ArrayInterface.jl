@@ -2,19 +2,7 @@ module ArrayInterface
 
 using LinearAlgebra
 
-@static if isdefined(Base, Symbol("@assume_effects"))
-    using Base: @assume_effects
-else
-    macro assume_effects(args...)
-        n = nfields(args)
-        call = getfield(args, n)
-        if n === 2 && getfield(args, 1) === QuoteNode(:total)
-            return esc(:(Base.@pure $(call)))
-        else
-            return esc(call)
-        end
-    end
-end
+using Base: @assume_effects
 @assume_effects :total __parameterless_type(T)=Base.typename(T).wrapper
 parameterless_type(x) = parameterless_type(typeof(x))
 parameterless_type(x::Type) = __parameterless_type(x)
